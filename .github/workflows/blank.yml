@@ -40,4 +40,5 @@ jobs:
           else
             changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
           fi
+          echo "$changed_files"
           aws codepipeline start-pipeline-execution --files GithubPipeline --variables '[{"name":"changedfiles", "value":"$changed_files"}]' 

@@ -73,7 +73,8 @@
             "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
         },
         "Subnets": {
-            "Type": "List<AWS::EC2::Subnet::Id>"
+            "Type": "List<AWS::EC2::Subnet::Id>",
+            "Default": ["subnet-01c736cd9df2a5e42"]
         }
     },
     "Resources": {

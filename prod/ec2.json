@@ -75,7 +75,7 @@
         },
         "Subnets": {
             "Type": "List<AWS::EC2::Subnet::Id>",
-            "Default": ["subnet-02e53e61e1be3da38"]
+            "Default": "subnet-02e53e61e1be3da38"
         }
     },
     "Resources": {

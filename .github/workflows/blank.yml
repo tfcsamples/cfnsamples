@@ -37,13 +37,19 @@ jobs:
           role-to-assume: arn:aws:iam::912333642649:role/githubRole
           aws-region: us-west-2
           
-      # Runs a single command using the runners shell
+      # Detect changed files and trigger the pipeline
       - run: |
           echo "Triggering AWS Pipeline"
           if [[ ${{ github.event_name }} == 'pull_request' ]]; then
-            changed_files=$(git diff --name-only -r HEAD^1 HEAD)
+            changed_files=$(git diff --name-only -r HEAD^1 HEAD | grep -v '^$' | tr '\n' ',' | sed 's/,$//')
           else
-            changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
+            changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep -v '^$' | tr '\n' ',' | sed 's/,$//')
           fi
-          echo "$changed_files"
-          aws codepipeline start-pipeline-execution --name cfn-conditional-deploy-pipeline --variables name=CHANGED_FILES,value="$changed_files" 
+          echo "Changed files: $changed_files"
+          if [ -z "$changed_files" ]; then
+            echo "No changed files detected. Skipping pipeline trigger."
+            exit 0
+          fi
+          aws codepipeline start-pipeline-execution \
+            --name cfn-conditional-deploy-pipeline \
+            --variables "name=CHANGED_FILES,value=$changed_files"

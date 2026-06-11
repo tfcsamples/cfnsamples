@@ -57,7 +57,7 @@
                 "d2.4xlarge",
                 "d2.8xlarge"
             ],
-            "Default": "t3.small",
+            "Default": "t2.small",
             "ConstraintDescription": "must be a valid EC2 instance type."
         },
         "SSHLocation": {

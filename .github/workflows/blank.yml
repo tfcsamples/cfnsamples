@@ -52,4 +52,4 @@ jobs:
           fi
           aws codepipeline start-pipeline-execution \
             --name cfn-conditional-deploy-pipeline \
-            --variables "name=CHANGED_FILES,value=$changed_files"
+            --variables "[{\"name\":\"CHANGED_FILES\",\"value\":\"$changed_files\"}]"
